@@ -4,8 +4,9 @@ import Cards from "./components/Cards.jsx";
 import AboutMe from "./components/AboutMe.jsx";
 import Detail from "./components/Detail.jsx";
 import Error from "./components/Error.jsx";
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import Form from "./components/Form/Form.jsx";
+import { useState, useEffect } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -26,21 +27,44 @@ function App() {
     setCharacters(characters.filter((char) => char.id !== id));
   };
 
-  console.log(characters);
+  const location = useLocation();
+
+  // Conexion con el Form.
+
+  const navigate = useNavigate();
+  const [access, setAccess] = useState(false);
+  let username = "enzogabrielvera07@gmail.com";
+  let password = "Enzo07";
+
+  const login = (userData) => {
+    if (userData.password === password && userData.username === username) {
+      setAccess(true);
+      navigate("/home");
+    }
+  };
+
+  useEffect(() => {
+    !access && navigate("/");
+  }, [access]);
 
   return (
     <div className="App" style={{ padding: "25px" }}>
-      <div>
+      {location.pathname === "/" ? (
+        <Form login={login} />
+      ) : (
         <Nav onSearch={onSearch} />
-      </div>
+      )}
       <hr />
+
       <Routes>
         <Route
           path="/home"
           element={<Cards onClose={onClose} characters={characters} />}
         />
+
         <Route path="/about" element={<AboutMe />} />
         <Route path="/detail/:detailId" element={<Detail />} />
+
         <Route path="*" element={<Error />} />
       </Routes>
     </div>
