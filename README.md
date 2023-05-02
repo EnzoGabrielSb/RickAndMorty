@@ -1,8 +1,8 @@
-# HW 08: React-Estado-LifeCycle | Integración
+## HW 12: React-Redux | Integración
 
 ## **Duración estimada 🕒**
 
-1 hora y media
+2 horas
 
 <br />
 
@@ -10,17 +10,14 @@
 
 ## **Rick & Morty App**
 
-### **INTRO**
+## **INTRO**
 
-Hasta el momento, en nuestra Rick & Morty App tenemos estos 3 Componentes:
+En la integración de hoy crearemos un espacio en el que podremos guardar a nuestros personajes favoritos. ¡Podremos agregarlos y eliminarlos!
 
--  Card.jsx
--  Cards.jsx
--  SearchBar.jsx
+Para esto:
 
-Adicionalmente, vamos a crear otro componente denominado `Nav` que será nuestra barra superior de navegación, en la cual incluiremos el componente `SearchBar`.
-
-También vamos a reestructurar nuestra vista **_"Home"_**, que no es más que nuestro archivo `App.js` para darle una forma más ordenada.
+-  ❤️ Fav button: nuestras Cards tendrán un botón para agregar/eliminar de favoritos.
+-  👀 Vista nueva: crearemos una nueva vista en la que se muestre específicamente todos nuestros personajes favoritos.
 
 <br />
 
@@ -28,185 +25,136 @@ También vamos a reestructurar nuestra vista **_"Home"_**, que no es más que nu
 
 ### **COMENCEMOS**
 
-En el archivo `App.js` ya tenemos importados y estamos renderizando los 3 componentes que vamos a codear. Revisa el código, verás que le estamos pasando props a estos componentes.
+Para comenzar, en tu terminal dirígete a la carpeta raíz de tu proyecto. Allí tendrás que instalar las siguientes dependencias:
 
-<br />
-
----
-
-### **👩‍💻 EJERCICIO 1**
-
-### **Crear Nav**
-
-1. Crear el componente `Nav`.
-2. Escribir el código correspondiente en `components/Nav.jsx`.
-
-> **Hint**: Este componente debe incluir el componente `SearchBar`.
-
-<br />
-
----
-
-### **👩‍💻 EJERCICIO 2**
-
-### **Reestructurar Home**
-
-1. Veamos primero una imagen del resultado final y pensemos la estructura general:
-
-<img src="./img/layout.png" width='800px'/>
-
-> -  **Recuadro rojo**: Nav
-> -  **Recuadro amarillo**: SearchBar
-> -  **Recuadro verde**: Cards
-> -  **Recuadro azul**: Card
-
-2. Ahora vamos a modificar el contenido del archivo `App.js`:
-
-   -  En `App` sólo vamos a renderizar los componentes `Cards` y `Nav`.
-   -  Ya no vamos a renderizar la primera `Card` "suelta" que pusimos en la primera clase. Ahora el componente `Cards` será quien contenga todas las `Card` individualmente.
-   -  Lo mismo sucede con `SearchBar`. No lo vamos a seguir renderizando de forma directa en App, debido a que ya se encuentra dentro de `Nav`.
-
-3. Importar y renderizar los componentes que vamos a utilizar.
-4. Aplicar estilos básicos al componente **_Nav_**.
-
-🔹 Resultado esperado:
-
-<img src="./img/home1.png" width='800px'/>
-
-<br />
-
----
-
-### **👩‍💻 EJERCICIO 3**
-
-### **Implementar un estado**
-
-Necesitamos mantener actualizado el listado de personajes a mostrar. Para ello debemos crear un estado en el componente `App.js` donde tengamos el array de personajes.
-
-1. Borra el import que traes de data.js (ya no vamos a usar más los datos de este archivo).
-2. Importa el hook useState.
-3. Crea un estado `characters` donde guardaremos el array de personajes.
-
-<br />
-
----
-
-### **👩‍💻 EJERCICIO 4**
-
-### **Función para agregar personajes**
-
-Ahora debemos crear una función llamada `onSearch` para agregar nuevos personajes a nuestro estado `characters` y se la pasaremos al `SearchBar` mediante el `Nav`.
-
-> **Hint**: Como aún no hemos hecho el llamado a la API para obtener los datos del personaje, agregamos uno por default para ver que esté funcionando:
-
-```jsx
-const example = {
-   name: 'Morty Smith',
-   species: 'Human',
-   gender: 'Male',
-   image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
-};
+```bash
+npm i redux react-redux redux-thunk
 ```
 
-<br />
+Una vez instaladas, a la altura de la carpeta "_components_" (es decir, que sea una carpeta hermana), crea una nueva carpeta llamada "**redux**". Dentro de ella crea los archivos `actions.js`, `store.js` y `reducer.js`.
 
----
+Dentro del archivo `store.js`, haz la configuración del store. Una vez configurado, deberás importarlo en tu archivo `index.js` junto con el Provider, y configurarlo en el wraper finalmente.
 
-### **👩‍💻 EJERCICIO 5**
-
-### **Le pasamos la función a Nav**
-
-Nuestra función recién creada (que modifica el estado `characters`) se la pasamos al componente `Nav`.
+> **NOTA:** puedes guiarte por cómo lo tienes hecho en la homework anterior. Ten en cuenta que el reducer lo crearás en el siguiente paso.
 
 <br />
 
 ---
 
-### **👩‍💻 EJERCICIO 6**
+## **👩‍💻 EJERCICIO 1**
 
-### **Seguimos pasando la función para que llegue a su destino**
+### **REDUCER**
 
-Quien finalmente debe ejecutar la función `onSearch` no es el `Nav` sino el `SearchBar`, por lo que debemos hacerle llegar dicha función.
+Dirígete al archivo en el que se encuentra tu **reducer**. Allí deberás:
 
-<br />
+1. Crear un _**initialState**_ con una propiedad llamada "**myFavorites**". Esta propiedad será un array vacío.
 
----
+2. Luego deberás crear tu reducer. Recuerda que este recibe dos parámetros, y dentro de él hay un switch.
 
-### **👩‍💻 EJERCICIO 7**
+> **NOTA:** ten en cuenta el modo en el que lo exportas, y cómo lo importas dentro de tu store.
 
-### **Analizando función onSearch**
+3. Dentro del switch de tu reducer, crea un nuevo caso en el que podrás agregar el personaje que recibes por payload a tu estado "_myFavorites_".
 
-En la homework anterior **06-React-Intro, 02 - Integration**, ya habíamos creado el componente `SearchBar` que recibía la función como parámetro y la ejecutaba cuando se hacía un `submit` del form.
+4. Crea un nuevo caso en el elimines el personaje que recibes por payload de tu estado inicial. Deberás filtrar el personaje a partir de su **ID**.
 
-En este punto la función ya debería ejecutarse. Cada vez que le demos click al botón `Agregar` un nuevo personaje se añade a nuestro estado `characters`, y por cada uno de ellos nuestro componente `Cards` renderiza una `Card`.
-
-Si observamos el código anterior estamos llamando a la función `onSearch` sin pasarle ningún parámetro, pero quisiéramos que ese parámetro dependa del input ingresado por el usuario.
+5. No te olvides de tu caso _**default**_.
 
 <br />
 
 ---
 
-### **👩‍💻 EJERCICIO 8**
+## **👩‍💻 EJERCICIO 2**
 
-### **Pasándole parámetros a la función**
+### **ACTIONS**
 
-1. Modifica el componente `SearchBar` para que mantenga un **estado** interno del nombre del personaje (`character`) escrito por el usuario y que cuando haya un cambio en el input, lo detecte mediante el listener `onChange` y actualice dicho estado.
+Crea dos _actions-creators_.
 
-2. Adicionalmente, pasar dicho estado `character` como parámetro de la función `onSearch` cuando la llamamos en el `submit`; para que utilice el estado, que contiene lo que ingresó el usuario y éste valor llegue así a la función **_onSearch_** que tenemos en **App.js**.
+-  Una que sea para agregar personajes a tu lista de favoritos. Recibe por parámetro el personaje.
+
+-  Otro que sea para eliminar un personaje de la lista de favoritos. Recibe por parámetro el id del personaje.
+
+> **NOTA:** no olvides que el nombre que asignes en la propiedad "TYPE" de tu acción, debe coincidir exactamente con el nombre de los casos que hayas asignado en tu reducer.
 
 <br />
 
 ---
 
-### **👩‍💻 EJERCICIO 9**
+## **👩‍💻 EJERCICIO 3**
 
-### **Buscando datos reales**
+### **FAV BUTTON**
 
-1. Comenta el código que engloba la constante **example**
+Ahora crearemos un botón para agregar y eliminar de favoritos! Para esto:
 
-2. Ahora debemos modificar la función `onSearch` para que obtenga los datos necesarios desde la API de [Rick&Morty](https://rickandmortyapi.com). Para ello vamos a utilizar `fetch` para hacer la llamada y obtener el resultado. Por el momento sólo vamos a obtener los personajes por ID, ya que si los buscamos por nombre hay demasiados resultados debido a que los mismos se repiten bastante.
+1. Dirígete al componente `Card`. Aquí deberás crear una función **mapDispatchToProps** que contenga dos funciones: Una para agregar tu personaje favorito, y otra para eliminarlo. Ten en cuenta que deberás importar las _**actions**_ que ya creaste.
 
-3. Mostrar un mensaje en caso de que el personaje no exista.
+2. Luego conecta esta función con tu componente, y recibe ambas funciones despachadoras por props.
 
-> **Hint**: Como aún no has visto promesas, tienes este snippet para que copies y pegues la función **_onSearch_**:
+3. Ahora crea un estado local en tu componente que se llame **isFav**, e inicialízalo en `false`.
 
-```js
-function onSearch(character) {
-   fetch(`https://rickandmortyapi.com/api/character/${character}`)
-      .then((response) => response.json())
-      .then((data) => {
-         if (data.name) {
-            setCharacters((oldChars) => [...oldChars, data]);
-         } else {
-            window.alert('No hay personajes con ese ID');
-         }
-      });
+4. Crea una función en el cuerpo del componente llamada **handleFavorite**. Esta función estará dividida en dos partes:
+
+   -  Si el estado _**isFav**_ es `true`, entonces settea ese estado en false, y despacha la función **deleteFavorite** que recibiste por props pasándole el **ID** del personaje como argumento.
+   -  Si el estado _**isFav**_ es `false`, entonces settea ese estado en true, y despacha la función **addFavorite** que recibiste por props, pasándole `props` como argumento.
+
+5. Ahora te ayudaremos a crear un renderizado condicional. Si tu estado local `isFav` es true, entonces se mostrará un botón. Si es false, se mostrará otro botón. Para esto, copia y pega el siguiente código al comienzo del renderizado de tu componente (no te olvides de darle estilos).
+
+```javascript
+{
+   isFav ? (
+      <button onClick={handleFavorite}>❤️</button>
+   ) : (
+      <button onClick={handleFavorite}>🤍</button>
+   );
 }
 ```
 
-> **Nota**: si tienes conocimiento base en promesas y deseas hacerlo de otra manera, puedes hacer la llamada utilizando `axios` para traer los datos. En caso que no, te invitamos a que veas el código y analices qué puede estar pasando.💡
+En este punto debería quedarte algo como esto:
+
+<img src="./img/favButton.gif" alt="" />
+
+6. Una vez hecho esto, nos tenemos que asegurar que el status de nuestro estado local se mantenga aunque nos vayamos y volvamos al componente. Para esto vamos a agregar en este componete una función **mapStateToProps**. Esa función debe traer nuestro estado global **myFavorites**. Recíbelo por `props` dentro de tu componente.
+
+7. Este `useEffect` comprobará si el personaje que contiene esta `Card` ya está dentro de tus favoritos. En ese caso setteará el estado **isFav** en true. Cópialo y pégalo dentro de tu componente (no te olvides de importarlo).
+
+```javascript
+useEffect(() => {
+   myFavorites.forEach((fav) => {
+      if (fav.id === props.id) {
+         setIsFav(true);
+      }
+   });
+}, [myFavorites]);
+```
+
+> **DESAFÍO:** te desafiamos a que reconstruyas ese useEffect, pero utilizando un **bucle For** en lugar de un **.forEach()**.
 
 <br />
 
 ---
 
-### **👩‍💻 EJERCICIO 10**
+## **👩‍💻 EJERCICIO 4**
 
-### **Cerrar cards**
+### **COMPONENTE DE FAVORITOS**
 
-Por último, recordemos que en la homework anterior **06-React-Intro, 02 - Integration** habíamos creado el componente `Card` para que reciba una función como parámetro. Ésta va a ser la encargada de eliminar esa card al momento de hacer click en el botón `X`.
+Dirígete a tu carpeta de componentes, y crea allí dentro una carpeta que contenga un archivo `Favorites.jsx` y otro `favorites.css`.
 
-Para ello es necesario definir dicha función `onClose` en **App.js**, para que a partir del id recibido, elimina dicho personaje del array de personajes del **_estado_**.
+1. Crea una ruta en el archivo `App.js` para mostrar este componente. La ruta se puede llamar **/favorites**. También crea un botón en tu `Navbar` que te redirija a esta ruta, y otro que te devuelva a tu `Home`.
 
-> **Hint**: Puedes utilizar el método `filter`.
+2. Dentro de este componente crea una función **mapStateToProps**. Esta función debe traer nuestro estado global _**myFavorites**_ a este componente. Luego recíbelo por props.
+
+3. Una vez que tengas la lista de tus personajes favoritos dentro de tu componente, deberás mappearlo (recorrerlo) y re-renderizar un `<div>` con información del personaje.
+
+> **NOTA:** no te olvides de darle estilos al componente.
+
+<br />
 
 ---
 
-🔹 Resultado esperado:
+### **¡LISTO! YA FUNCIONA TODO**
 
-<img src="./img/final.gif" width='800px'/>
+Todo el trabajo que hiciste en esta integración debería darte un resultado y funcionamiento similar a este:
 
-Listo! tu app es ahora dinámica e interactiva!! 👏🏼🚀
+<img src="./img/favDemostration.gif" alt="" />
 
 <br />
 
@@ -214,5 +162,8 @@ Listo! tu app es ahora dinámica e interactiva!! 👏🏼🚀
 
 ## **📌 EJERCICIO EXTRA**
 
--  Controlar que no se puedan agregar personajes repetidos.
--  Generar un botón en la navbar que agregue un personaje random (Hint: hay 826 personajes en total).
+### **¡Ahora te proponemos dos desafíos!**
+
+**1.** Si revisas, esta aplicación tiene un pequeño bug que tendrás que resolver... Cuando presionas el ❤️ de una de las Cards, el personaje aparece en la vista de "**Favoritos**". Pero si luego eliminas el personaje, este aún permanece en esta vista. Busca la manera para que cuando elimines un personaje, también se elimine de "**Favoritos**" (si es que está allí).
+
+**2.** Te animamos a que crees, dentro de esta misma aplicación, una nueva vista que sea tu "**PORTFOLIO**". Aquí podrás agregar/eliminar/editar tus proyectos construidos durante el bootcamp en Henry!

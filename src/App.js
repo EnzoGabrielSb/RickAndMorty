@@ -5,6 +5,7 @@ import AboutMe from "./components/AboutMe.jsx";
 import Detail from "./components/Detail.jsx";
 import Error from "./components/Error.jsx";
 import Form from "./components/Form/Form.jsx";
+import Favorites from "./components/Favorites";
 import { useState, useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
@@ -49,12 +50,7 @@ function App() {
 
   return (
     <div className="App" style={{ padding: "25px" }}>
-      {location.pathname === "/" ? (
-        <Form login={login} />
-      ) : (
-        <Nav onSearch={onSearch} />
-      )}
-      <hr />
+      {location.pathname !== "/" && <Nav onSearch={onSearch} />}
 
       <Routes>
         <Route
@@ -62,8 +58,13 @@ function App() {
           element={<Cards onClose={onClose} characters={characters} />}
         />
 
+        <Route path="/" element={<Form login={login} />} />
+
         <Route path="/about" element={<AboutMe />} />
+
         <Route path="/detail/:detailId" element={<Detail />} />
+
+        <Route path="/favorites" element={<Favorites />} />
 
         <Route path="*" element={<Error />} />
       </Routes>
