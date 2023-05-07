@@ -13,20 +13,38 @@ const SearchBar = ({ onSearch }) => {
 
   return (
     <div>
-      <div>
-        <Link to={"/about"}>
-          <p>About Me</p>
-        </Link>
-        <Link to={"/home"}>
-          <p>Home</p>
-        </Link>
-        <Link to={"/favorites"}>
-          <p>Favorites🌟</p>
-        </Link>
-      </div>
-      <div>
-        <input type="search" value={character} onChange={handleChange} />
-        <button onClick={() => onSearch(character)}>Agregar</button>
+      <nav class="menu">
+        <ul>
+          <li>
+            <Link to={"/about"}>
+              <a class="a">About Me 🧑‍💻</a>
+            </Link>
+          </li>
+
+          <li>
+            <Link to={"/home"}>
+              <a class="a">Home👾🏡</a>
+            </Link>
+          </li>
+
+          <li>
+            <Link to={"/favorites"}>
+              <a class="a">Favorites🌟</a>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="input-group">
+        <input
+          type="text"
+          value={character}
+          onChange={handleChange}
+          id="input-field"
+        />
+        <button onClick={() => onSearch(character)} class="submit-button">
+          <span>ADD CHAR</span>
+        </button>
       </div>
     </div>
   );

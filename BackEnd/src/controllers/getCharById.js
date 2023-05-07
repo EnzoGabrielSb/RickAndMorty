@@ -38,6 +38,7 @@ const getCharById = async (req, res) => {
       name: response.data.name,
       image: response.data.image,
       gender: response.data.gender,
+      species: response.data.species,
     };
     res.status(200).json(character);
   } catch (error) {

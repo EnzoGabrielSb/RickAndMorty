@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { filterCards, orderCards } from "../redux/actions";
+import "../styles/Favorites.css";
 
 const Favorites = () => {
   const dispath = useDispatch();
@@ -43,13 +44,25 @@ const Favorites = () => {
         myFavorites.map((charFav) => {
           return (
             <div>
-              <Link to={`/detail/${charFav.id}`}>
-                <h2>{charFav.name}</h2>
-              </Link>
-              <h2>{charFav.species}</h2>
-              <h2>{charFav.gender}</h2>
+              <div class="card">
+                <div>
+                  <img src={charFav.image} alt={charFav.name} class="img" />
+                </div>
 
-              <img src={charFav.image} alt={charFav.name} />
+                <span>
+                  <Link to={`/detail/${charFav.id}`}>
+                    <h2>{charFav.name}</h2>
+                  </Link>
+                </span>
+
+                <p>
+                  <h2 class="job">{charFav.species}</h2>
+                </p>
+
+                <p>
+                  <h2 class="job">{charFav.gender}</h2>
+                </p>
+              </div>
             </div>
           );
         })}

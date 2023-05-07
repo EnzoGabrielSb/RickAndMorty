@@ -53,7 +53,9 @@ function App() {
 
   return (
     <div className="App" style={{ padding: "25px" }}>
-      {location.pathname !== "/" && <Nav onSearch={onSearch} />}
+      {location.pathname !== "/" && location.pathname !== "/about" && (
+        <Nav onSearch={onSearch} />
+      )}
 
       <Routes>
         <Route

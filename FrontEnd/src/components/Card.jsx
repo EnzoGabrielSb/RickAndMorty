@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { addFavorites, deleteFavorite } from "../redux/actions";
+import "../styles/Card.css";
 
 const Card = ({ name, species, gender, image, onClose, id, key = id }) => {
   const dispatch = useDispatch();
@@ -33,22 +34,37 @@ const Card = ({ name, species, gender, image, onClose, id, key = id }) => {
 
   return (
     <div>
-      {isFav ? (
-        <button onClick={handleFavorite}>❤️</button>
-      ) : (
-        <button onClick={handleFavorite}>🤍</button>
-      )}
-      <br />
-      <hr />
+      <div class="card">
+        <div class="card-border-top"></div>
 
-      <button onClick={onClose}>X</button>
-      <Link to={`/detail/${id}`}>
-        <h2>{name}</h2>
-      </Link>
-      <h2>{species}</h2>
-      <h2>{gender}</h2>
+        <div>
+          <img src={image} alt={name} class="img" />
+        </div>
 
-      <img src={image} alt={name} />
+        <span>
+          <Link to={`/detail/${id}`}>
+            <h2>{name}</h2>
+          </Link>
+        </span>
+
+        <p>
+          <h2 class="job">{species}</h2>
+        </p>
+
+        <p>
+          <h2 class="job">{gender}</h2>
+        </p>
+
+        <button onClick={onClose} class="job">
+          X
+        </button>
+
+        {isFav ? (
+          <button onClick={handleFavorite}>❤️</button>
+        ) : (
+          <button onClick={handleFavorite}>🤍</button>
+        )}
+      </div>
     </div>
   );
 };
